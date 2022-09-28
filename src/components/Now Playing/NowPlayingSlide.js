@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Moment from 'moment';
 
@@ -18,9 +19,9 @@ function NowPlayingSlide({ backdrop, title, date, id, vote, desc }) {
          <div className="playing-slide-info">
             <h1 className="playing-slide__title">{title}</h1>
             <div className="playling-slide-info__details">
-               <a className="btn btn--slide" href="#">
+               <Link className="btn btn--slide" to={`movies/${id}`}>
                   Details
-               </a>
+               </Link>
                <p className="playing-slide__votes">{vote * 10}</p>
             </div>
             <p className="playing-slide__desc">{desc}</p>

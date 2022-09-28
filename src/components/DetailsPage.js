@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import noProfile from '../assets/img/no-profile.jpg';
 
 function DetailsPage() {
    const [details, setDetails] = useState();
    const [cast, setCast] = useState();
+   const [watchState, setWatchState] = useState();
    let { id } = useParams();
 
    const imageApi = 'https://image.tmdb.org/t/p/w200';
    const backdropApi = 'https://image.tmdb.org/t/p/w1280';
    const posterApi = 'https://image.tmdb.org/t/p/w500';
+   const logoApi = 'https://image.tmdb.org/t/p/w300';
 
    useEffect(() => {
       async function fetchDetails() {
@@ -18,7 +21,6 @@ function DetailsPage() {
 
          const movieDetails = await response.json();
          setDetails(movieDetails);
-         console.log(movieDetails);
       }
 
       async function fetchCast() {
@@ -28,17 +30,27 @@ function DetailsPage() {
 
          const castDetails = await response.json();
          setCast(castDetails);
-         console.log(castDetails);
+      }
+
+      async function fetchWatch() {
+         const response = await fetch(
+            `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`
+         );
+
+         const watch = await response.json();
+         setWatchState(watch.results.CA);
+         console.log(watch.results.CA);
       }
 
       fetchDetails();
       fetchCast();
+      fetchWatch();
    }, []);
 
    return (
       <div className="details">
          {details && (
-            <div>
+            <div className="details-header">
                {' '}
                <div className="overlay details-backdrop-wrapper">
                   <img
@@ -47,60 +59,118 @@ function DetailsPage() {
                      alt={details.title}
                   />
                </div>
-               <img
-                  className=""
-                  src={`${posterApi}${details.poster_path}`}
-                  alt=""
-               />
-               <h1>{details.title}</h1>
-               <p>{details.overview}</p>
-               {details.genres.map((genre) => (
-                  <div key={genre.id}>
-                     <p>{genre.name}</p>
+               <div className="details-summary-container container-padding">
+                  <img
+                     className="details__poster"
+                     src={`${posterApi}${details.poster_path}`}
+                     alt=""
+                  />
+                  <div className="details__summary">
+                     <h1 className="details__heading">{details.title}</h1>
+                     <p className="details__overview">{details.overview}</p>
+                     <div className="details-genres">
+                        {details.genres.map((genre) => (
+                           <div className="details__genre" key={genre.id}>
+                              <p>{genre.name}</p>
+                           </div>
+                        ))}
+                     </div>
                   </div>
-               ))}
+               </div>
             </div>
          )}
-         {cast &&
-            cast.cast.map((cast) => (
-               <div key={cast.cast_id}>
-                  <img src={`${imageApi}${cast.profile_path}`} alt="" />
-                  <p>{cast.known_for_department}</p>
-                  <p>{cast.character}</p>
-                  <p>{cast.name}</p>
+
+         <div className="details-cast-container container-padding">
+            <div className="cast-container">
+               <h1 className="movies__heading">Actors</h1>
+               <div className="cast">
+                  {cast &&
+                     cast.cast.map((cast) => (
+                        <div key={cast.cast_id}>
+                           <img
+                              className="cast__profile"
+                              src={
+                                 cast.profile_path
+                                    ? `${imageApi}${cast.profile_path}`
+                                    : noProfile
+                              }
+                              alt=""
+                           />
+                           <p className="cast__name">{cast.name}</p>
+                           <p className="cast__character">{cast.character}</p>
+                        </div>
+                     ))}
                </div>
-            ))}
-         {cast &&
-            cast.crew
-               .filter((details) => details.department == 'Directing')
-               .map((crew) => (
-                  <div key={crew.credit_id}>
-                     <h3>Crew</h3>
-                     <img src={`${imageApi}${crew.profile_path}`} />
-                     <p>{crew.job}</p>
-                     <p>{crew.name}</p>
-                  </div>
-               ))}
-         {cast &&
-            cast.crew
-               .filter((details) => details.department == 'Production')
-               .map((crew) => (
-                  <div key={crew.credit_id}>
-                     <img src={`${imageApi}${crew.profile_path}`} />
-                     <p>{crew.job}</p>
-                     <p>{crew.name}</p>
-                  </div>
-               ))}
-         {cast &&
-            cast.crew
-               .filter((details) => details.department == 'Writing')
-               .map((crew) => (
-                  <div key={crew.credit_id}>
-                     <img src={`${imageApi}${crew.profile_path}`} />
-                     <p>{crew.job}</p>
-                     <p>{crew.name}</p>
-                  </div>
-               ))}
+            </div>
+            <div className="cast-container">
+               <h1 className="movies__heading">Directing</h1>
+               <div className="cast">
+                  {cast &&
+                     cast.crew
+                        .filter((details) => details.department == 'Directing')
+                        .map((crew) => (
+                           <div key={crew.credit_id}>
+                              <img
+                                 className="cast__profile"
+                                 src={
+                                    crew.profile_path
+                                       ? `${imageApi}${crew.profile_path}`
+                                       : noProfile
+                                 }
+                              />
+                              <p className="cast__name">{crew.name}</p>
+                              <p className="cast__job">{crew.job}</p>
+                           </div>
+                        ))}
+               </div>
+            </div>
+
+            <div className="cast-container">
+               <h1 className="movies__heading">Production</h1>
+               <div className="cast">
+                  {cast &&
+                     cast.crew
+                        .filter((details) => details.department == 'Production')
+                        .map((crew) => (
+                           <div key={crew.credit_id}>
+                              <img
+                                 className="cast__profile"
+                                 src={
+                                    crew.profile_path
+                                       ? `${imageApi}${crew.profile_path}`
+                                       : noProfile
+                                 }
+                              />
+                              <p className="cast__name">{crew.name}</p>
+                              <p className="cast__job">{crew.job}</p>
+                           </div>
+                        ))}
+               </div>
+            </div>
+
+            <div className="cast-container">
+               <h1 className="movies__heading">Writers</h1>
+               <div className="cast">
+                  {cast &&
+                     cast.crew
+                        .filter((details) => details.department == 'Writing')
+                        .map((crew) => (
+                           <div key={crew.credit_id}>
+                              <img
+                                 className="cast__profile"
+                                 src={
+                                    crew.profile_path
+                                       ? `${imageApi}${crew.profile_path}`
+                                       : noProfile
+                                 }
+                              />
+                              <p className="cast__name">{crew.name}</p>
+                              <p className="cast__job">{crew.job}</p>
+                           </div>
+                        ))}
+               </div>
+            </div>
+         </div>
       </div>
    );
 }
