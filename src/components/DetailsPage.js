@@ -8,10 +8,9 @@ function DetailsPage() {
    const [watchState, setWatchState] = useState();
    let { id } = useParams();
 
-   const imageApi = 'https://image.tmdb.org/t/p/w200';
+   const imageApi = 'https://image.tmdb.org/t/p/w500';
    const backdropApi = 'https://image.tmdb.org/t/p/w1280';
    const posterApi = 'https://image.tmdb.org/t/p/w500';
-   const logoApi = 'https://image.tmdb.org/t/p/w300';
 
    useEffect(() => {
       async function fetchDetails() {
@@ -75,6 +74,9 @@ function DetailsPage() {
                            </div>
                         ))}
                      </div>
+                     <p className="details__votes">
+                        {Math.floor(details.vote_average * 10)}
+                     </p>
                   </div>
                </div>
             </div>
