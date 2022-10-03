@@ -1,20 +1,20 @@
 import React, { useContext, useEffect } from 'react';
 import Pagination from './Pagination';
 import { AppContext } from '../AppContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import Movie from './Movie';
 
 function SearchPage() {
-   const { searchData, setSearchData, searchTerm, currentPage } =
-      useContext(AppContext);
-   const searchQuery = encodeURIComponent(searchTerm);
+   const { searchData, setSearchData } = useContext(AppContext);
+   let { number, query } = useParams();
+   const searchQuery = encodeURIComponent(query);
    const location = useLocation();
 
    useEffect(() => {
       async function getSearchResults() {
          const response = await fetch(
-            `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${searchQuery}&page=${currentPage}&include_adult=false`
+            `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${searchQuery}&page=${number}&include_adult=false`
          );
 
          const movies = await response.json();
@@ -44,7 +44,7 @@ function SearchPage() {
                   );
                })}
          </div>
-         <Pagination pages={searchData.total_pages} />
+         {searchData && <Pagination pages={searchData.total_pages} />}
       </div>
    );
 }

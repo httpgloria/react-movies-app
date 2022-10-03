@@ -1,40 +1,30 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../AppContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 function Pagination({ pages }) {
-   const { searchTerm, currentPage, setCurrentPage } = useContext(AppContext);
-   const pageNumbers = [];
+   const { searchTerm } = useContext(AppContext);
+   const navigate = useNavigate();
 
-   for (let i = 1; i < pages + 1; i++) {
-      pageNumbers.push(i);
-   }
-
-   function changePageNumber(num) {
-      setCurrentPage(num);
+   function pageChange({ selected }) {
+      navigate(
+         `/search/${encodeURIComponent(searchTerm)}/page/${selected + 1}`
+      );
    }
 
    return (
       <div className="pagination">
-         {pageNumbers.map((number) => (
-            <li
-               className={
-                  currentPage == number
-                     ? `pagination__item pagination__item--active`
-                     : 'pagination__item'
-               }
-               key={number}
-            >
-               <Link
-                  onClick={() => changePageNumber(number)}
-                  to={`/search/${encodeURIComponent(
-                     searchTerm
-                  )}/page/${number}`}
-               >
-                  {number}
-               </Link>
-            </li>
-         ))}
+         <ReactPaginate
+            breakLabel="..."
+            previousLabel="<"
+            nextLabel=">"
+            pageCount={pages}
+            onPageChange={pageChange}
+            pageRangeDisplayed={5}
+            containerClassName={'pagination-btns'}
+            activeClassName={'pagination-active'}
+         />
       </div>
    );
 }

@@ -7,13 +7,13 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import SearchPage from './components/SearchPage';
 import DetailsPage from './components/DetailsPage';
+import NotFound from './components/NotFound';
 
 import './app.css';
 
 function App() {
-   const [searchData, setSearchData] = useState('');
+   const [searchData, setSearchData] = useState({});
    const [searchTerm, setSearchTerm] = useState('');
-   const [currentPage, setCurrentPage] = useState(1);
 
    return (
       <div className="movie-app">
@@ -23,21 +23,25 @@ function App() {
                setSearchData,
                searchTerm,
                setSearchTerm,
-               currentPage,
-               setCurrentPage,
             }}
          >
             <Router>
-               <Header />
-               <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route
-                     path="/search/:query/page/:number"
-                     element={<SearchPage />}
-                  />
-                  <Route path="/movies/:id" element={<DetailsPage />}></Route>
-               </Routes>
-               <Footer />
+               <div className="app-container">
+                  <Header />
+                  <Routes>
+                     <Route path="*" element={<NotFound />} />
+                     <Route path="/" element={<Home />} />
+                     <Route
+                        path="/search/:query/page/:number"
+                        element={<SearchPage />}
+                     />
+                     <Route
+                        path="/movies/:id"
+                        element={<DetailsPage />}
+                     ></Route>
+                  </Routes>
+                  <Footer />
+               </div>
             </Router>
          </AppContext.Provider>
       </div>

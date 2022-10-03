@@ -7,7 +7,7 @@ import logo from '../assets/logo.png';
 import { IoSearch } from 'react-icons/io5';
 
 function Header() {
-   const { searchTerm, setSearchTerm, setCurrentPage } = useContext(AppContext);
+   const { searchTerm, setSearchTerm } = useContext(AppContext);
 
    return (
       <header className="header">
@@ -24,10 +24,7 @@ function Header() {
                   setSearchTerm(e.target.value);
                }}
             />
-            <Link
-               onClick={() => setCurrentPage(1)}
-               to={`/search/${encodeURIComponent(searchTerm)}/page/1`}
-            >
+            <Link to={`/search/${encodeURIComponent(searchTerm)}/page/1`}>
                <button className="search-button" type="button">
                   <IoSearch size={20} color="#dbdbdb" />
                </button>

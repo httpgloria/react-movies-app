@@ -3,6 +3,15 @@
    display: flex;
    align-items: center;
    justify-content: space-between;
+   box-shadow: 0px 8px 9px -6px rgba(0, 0, 0, 0.11);
+}
+
+.movie-app {
+   height: 100%;
+}
+
+.app-container {
+   height: 100%;
 }
 
 .search-bar {
@@ -161,18 +170,18 @@
    top: 20px;
 }
 
-.prev,
-.next {
+.prev-slide,
+.next-slide {
    position: absolute;
    top: 50%;
    z-index: 100;
 }
 
-.prev {
+.prev-slide {
    left: 20px;
 }
 
-.next {
+.next-slide {
    right: 20px;
 }
 
@@ -251,35 +260,12 @@
    margin-bottom: 50px;
 }
 
-.pagination {
-   margin-top: 20px;
-   margin-bottom: 40px;
-   display: flex;
-   gap: 20px;
-   list-style: none;
-}
-
-.pagination__item {
-   width: 35px;
-   height: 35px;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   border-radius: 50%;
-}
-
-.pagination__item--active {
-   background-color: #1e90ff;
-}
-
-.pagination__item--active a {
-   color: #fff;
-}
-
 .search-movies {
    display: grid;
    grid-template-columns: repeat(auto-fit, 200px);
    gap: 50px;
+   /* width: 100%; */
+   margin-bottom: 80px;
 }
 
 .no-poster {
@@ -409,6 +395,8 @@
 }
 
 .footer {
+   position: sticky;
+   top: 100%;
    padding: 60px 50px;
    display: flex;
    align-items: center;
@@ -423,4 +411,57 @@
 
 .footer__text {
    color: #979b9c;
+}
+
+.pagination {
+   margin-bottom: 80px;
+}
+
+.pagination-btns {
+   list-style: none;
+   display: flex;
+   justify-content: center;
+   gap: 10px;
+}
+
+.pagination-btns a {
+   background: #eeeeee;
+   padding: 20px;
+   border-radius: 10px;
+   cursor: pointer;
+   font-weight: 600;
+   transition: all 0.5s ease;
+}
+
+.pagination-btns a:hover {
+   background-color: #1e90ff;
+   color: #fff;
+}
+
+.pagination-active a {
+   background-color: #1e90ff;
+   color: #fff;
+}
+
+.not-found {
+   padding-top: 100px;
+}
+
+.not-found h1 {
+   margin-bottom: 40px;
+}
+
+.not-found__link {
+   background: #1e90ff;
+   border: 2px solid transparent;
+   padding: 10px 20px;
+   border-radius: 20px;
+   color: #fff;
+   transition: all 0.5s ease;
+}
+
+.not-found__link:hover {
+   background-color: #fff;
+   color: #1e90ff;
+   border: 2px solid #1e90ff;
 }

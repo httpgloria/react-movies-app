@@ -44,10 +44,10 @@ function NowPlayingSlider({ data }) {
                   })}
                </Swiper>
                <div className="slider__navigation">
-                  <div className="prev">
+                  <div className="prev-slide">
                      <BsChevronLeft size={40} color="fff" />
                   </div>
-                  <div className="next">
+                  <div className="next-slide">
                      <BsChevronRight size={40} color="fff" />
                   </div>
                </div>
