@@ -20,8 +20,8 @@ function NowPlayingSlider({ data }) {
                <Swiper
                   modules={[Navigation, Pagination, Scrollbar]}
                   navigation={{
-                     prevEl: '.prev',
-                     nextEl: '.next',
+                     prevEl: '.prev-slide',
+                     nextEl: '.next-slide',
                   }}
                   pagination={{ clickable: true }}
                   spaceBetween={0}
